@@ -19,7 +19,6 @@ let getReposByUsername = (username, callback) => {
 
   axios(options)
   .then((response) => {
-    // console.log('response data', response.data)
     db.save(response.data, (err, data) => {
       if (err) {throw err;}
       else {

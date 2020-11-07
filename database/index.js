@@ -2,13 +2,14 @@ const mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost/fetcher');
 
 let repoSchema = mongoose.Schema({
-  repo_id: Number,
-  user_id: Number,
-  repo_name: String,
-  fullname: String,
+  repoId: Number,
+  repoName: String,
+  repoPath: String,
+  userId: Number,
   username: String,
   size: Number,
-  forks_count: Number
+  forks: Number,
+  url: String
 });
 
 let Repo = mongoose.model('Repo', repoSchema);
@@ -32,7 +33,8 @@ let save = (data, callback) => {
         userId: data[i].owner.id,
         username: data[i].owner.login,
         size: data[i].size,
-        forks: data[i].forks_count
+        forks: data[i].forks_count,
+        url: data[i].html_url
       }
       newDocs.push(newObj);
     }
@@ -56,6 +58,18 @@ let save = (data, callback) => {
   })
 }
 
+let retrieve = (callback) => {
 
+  Repo.find({}, null, {sort: {forks: 'desc'}, limit: 25}, (err, data) => {
+    if (err) {
+      callback(err)
+    } else {
+      console.log('GET INFORMATION', data)
+      callback(null, data)
+    }
+  });
+
+}
 
 module.exports.save = save;
+module.exports.retrieve = retrieve;

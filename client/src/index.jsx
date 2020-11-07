@@ -32,11 +32,28 @@ class App extends React.Component {
     })
   }
 
+  componentDidMount() {
+    $.ajax({
+      url: "http://localhost:1128/repos",
+      method: 'GET',
+      success: (response) => {
+        console.log('successful get', response)
+        this.setState({
+          repos: response
+        })
+      },
+      error: (err) => {
+        console.log(err)
+      }
+    })
+  }
+
+
   render () {
     return (<div>
       <h1>Github Fetcher</h1>
-      <RepoList repos={this.state.repos}/>
       <Search onSearch={this.search}/>
+      <RepoList repos={this.state.repos}/>
     </div>)
   }
 }

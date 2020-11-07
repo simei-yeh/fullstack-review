@@ -1,5 +1,6 @@
 const express = require('express');
 const git = require('../helpers/github.js')
+const db = require('../database/index.js')
 
 let app = express();
 
@@ -16,18 +17,26 @@ app.post('/repos', function (req, res) {
   console.log(req.body.username);
   git.getReposByUsername(req.body.username, (err, data) => {
     // console.log(data)
-    // if (err) {
-    //   res.status(400).send(data)
-    // } else {
-    //   res.status(201).send(data)
-    // }
+    if (err) {
+      res.status(400).json(data)
+    } else {
+      res.status(201).json(data)
+    }
   })
-  res.sendStatus(200);
 });
 
 app.get('/repos', function (req, res) {
   // TODO - your code here!
   // This route should send back the top 25 repos
+  console.log('get received!', req.query)
+  db.retrieve((err, data) => {
+    if (err) {
+      res.status(404).json(data)
+    } else {
+      res.status(200).json(data)
+    }
+  })
+
 });
 
 let port = 1128;
