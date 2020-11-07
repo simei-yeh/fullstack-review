@@ -18,7 +18,7 @@ class App extends React.Component {
     console.log(`${term} was searched`);
     // TODO
     $.ajax({
-      url: "http://localhost:1128/repos",
+      url: "/repos",
       method: 'POST',
       data: JSON.stringify({username: term}),
       contentType: "application/json; charset=utf-8",
@@ -37,7 +37,7 @@ class App extends React.Component {
 
   componentDidMount() {
     $.ajax({
-      url: "http://localhost:1128/repos",
+      url: "/repos",
       method: 'GET',
       success: (response) => {
         console.log('successful get', response)
