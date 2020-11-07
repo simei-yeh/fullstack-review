@@ -51,7 +51,7 @@ let save = (data, callback) => {
         if (err) {
           callback(err)
         } else {
-          callback(null, data)
+          retrieve(callback)
         }
       })
     }
